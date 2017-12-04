@@ -5,6 +5,7 @@ import module from './module';
 import { setEndpoint, removeQueryParams } from './helpers';
 
 
+export let GlobalVue;
 export let store;
 export let config;
 const plugin = {};
@@ -15,7 +16,7 @@ plugin.install = function(Vue, presets) {
 
     config = createConfig(presets);
 
-    plugin.GlobalVue = Vue;
+    GlobalVue = Vue;
     Vue.$routeFetch = {
         connect,
         decorateRecords,
@@ -81,7 +82,7 @@ function decorateRecords(records = [], parents = []) {
             let fetchMethod = setEndpoint(fetch);
 
             // Invoke the vue component that is used for the route outlet
-            result.component = Vue.component(page);
+            result.component = GlobalVue.component(page);
 
             // Expose all properties that shall be available within the route component as `this.$route.meta`
             Object.assign(result.meta, {
