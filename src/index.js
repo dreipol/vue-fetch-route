@@ -30,7 +30,7 @@ export default plugin;
 /**
  * Wire up a vuex store with the app
  * @param {Object} vuexStore - A vuex store containing the `router` module
- * @return {Function} - Unsync function
+ * @return {Function} Unsync function
  */
 function connect(vuexStore) {
     const { vuex } = config;
@@ -48,7 +48,7 @@ function connect(vuexStore) {
  * Route config creation helper
  * @param {Array} records - A route record array describing a list of available routes
  * @param {Array} parents - The records' parental hierarchy, the first item being the oldest
- * @return {Array} - Gives back the enhanced route records, ready for being used by `vue-router`
+ * @return {Array} The enhanced route records, ready for being used by `vue-router`
  */
 function decorateRecords(records = [], parents = []) {
     /**
@@ -107,6 +107,7 @@ function decorateRecords(records = [], parents = []) {
  * Compare two route definitions, ignoring irrelevant information such as hash
  * @param {Object} to - A route record describing the previous location
  * @param {Object} from - A route record describing the next location
+ * @return {boolean} A flag indicating if two records are identical
  */
 function compareRecords(to, from) {
     const hasSameName = to.name === from.name;
@@ -121,6 +122,7 @@ function compareRecords(to, from) {
  * @param {Object} route - A route descriptor object
  * @param {Object} route.params - All currently active params
  * @param {Object} route.query - The currently active query object
+ * @return {Promise} A promise returning route data of a page
  */
 function invokeFetch({ meta, params, query }) {
     return meta.api.fetch({ params, query });

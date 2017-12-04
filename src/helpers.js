@@ -4,6 +4,7 @@ import { config, store } from './index';
 
 /**
  * Access namespaced module in vuex store
+ * @return {string} The namespaced module name
  */
 function namespaced() {
     return `${ config.vuex.namespace }${ config.vuex.module }`;
@@ -62,6 +63,11 @@ export function setEndpoint({ cache = true, url, params: presetParams, query: pr
 
 /**
  * Create endpoint urls for fetching and storing
+ * @param {Function} compileFn - The method to compile a fetch/storage url out of a raw url
+ * @param {string} fetchUrl - The raw url
+ * @param {Object} params - The params object
+ * @param {Object} query - The query object
+ * @return {Object} An object containing the fetch and the storage url
  */
 export function createUrlKeys(compileFn, fetchUrl, params, query) {
     return {
@@ -72,6 +78,9 @@ export function createUrlKeys(compileFn, fetchUrl, params, query) {
 
 /**
  * Filter query params for djangoCMS static placeholders
+ * @param {Object} query - The input query object
+ * @param {Vuex.Store} store - The vuex store object
+ * @return {Object} The filtered query object
  */
 function filterQueryParams(query = {}) {
     const result = Object.assign({ partials: [] }, cloneDeep(query));
@@ -88,6 +97,8 @@ function filterQueryParams(query = {}) {
 
 /**
  * Remove query params for djangoCMS static placeholders
+ * @param {Object} query - The query object
+ * @return {Object} The stripped query object
  */
 export function removeQueryParams(query = {}) {
     const result = cloneDeep(query);
