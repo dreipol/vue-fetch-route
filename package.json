@@ -13,7 +13,7 @@
     "test": "npm run lint && mocha test.js"
   },
   "files": [
-    "index.js",
+    "dist",
     "src/index.js"
   ],
   "repository": {
