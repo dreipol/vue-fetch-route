@@ -1,0 +1,50 @@
+{
+  "name": "vue-fetch-route",
+  "version": "0.0.2",
+  "description": "",
+  "main": "dist/index.js",
+  "jsnext:main": "src/index.js",
+  "module": "index.next.js",
+  "scripts": {
+    "prepare": "npm run build && npm test",
+    "lint": "eslint index.next.js test.js rollup.config.js",
+    "build": "rollup -c",
+    "doc": "documentation readme index.next.js -s API",
+    "test": "npm run lint && mocha test.js"
+  },
+  "files": [
+    "index.js",
+    "index.next.js"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dreipol/vue-fetch-route.git"
+  },
+  "keywords": [
+    "es6",
+    "es2015"
+  ],
+  "author": "Rouven Bühlmann <rouven.buehlmann@dreipol.ch> (http://dreipol.ch)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/dreipol/vue-fetch-route/issues"
+  },
+  "homepage": "https://github.com/dreipol/vue-fetch-route#readme",
+  "devDependencies": {
+    "@dreipol/eslint-config": "^3.0.0",
+    "@dreipol/eslint-plugin-export-keys": "^1.1.1",
+    "babel-eslint": "^8.0.1",
+    "eslint": "^4.4.0",
+    "eslint-plugin-html": "^3.1.1",
+    "jsdom": "9.5.0",
+    "jsdom-global": "2.1.0",
+    "mocha": "^4.0.1",
+    "rollup": "^0.52.0",
+    "rollup-plugin-commonjs": "^8.2.6",
+    "rollup-plugin-node-resolve": "^2.0.0"
+  },
+  "dependencies": {
+    "lodash.clonedeep": "^4.5.0",
+    "lodash.isequal": "^4.5.0"
+  }
+}
