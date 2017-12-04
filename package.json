@@ -4,17 +4,17 @@
   "description": "",
   "main": "dist/index.js",
   "jsnext:main": "src/index.js",
-  "module": "index.next.js",
+  "module": "src/index.js",
   "scripts": {
     "prepare": "npm run build && npm test",
-    "lint": "eslint index.next.js test.js rollup.config.js",
+    "lint": "eslint src/index.js test.js rollup.config.js",
     "build": "rollup -c",
-    "doc": "documentation readme index.next.js -s API",
+    "doc": "documentation readme src/index.js -s API",
     "test": "npm run lint && mocha test.js"
   },
   "files": [
     "index.js",
-    "index.next.js"
+    "src/index.js"
   ],
   "repository": {
     "type": "git",
