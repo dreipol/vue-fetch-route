@@ -1,5 +1,5 @@
 import cloneDeep from 'lodash.clonedeep';
-import { config, store } from './index';
+import { config, VuexStore } from './index';
 
 
 /**
@@ -52,12 +52,12 @@ export function setEndpoint({ cache = true, url, params: presetParams, query: pr
         // Push available data into the store's endpoint address
         if (response) {
             config.log.debug(`Saving prefetched data for URL '${ storageKey }'`);
-            return store.dispatch(`${ namespaced() }/setRouteData`, { key: storageKey, value: response });
+            return VuexStore.dispatch(`${ namespaced() }/setRouteData`, { key: storageKey, value: response });
         }
 
         // Fetch data from compiled endpoint
         config.log.debug(`Fetching data for URL '${ fetchKey }'... Caching is ${ cache ? 'enabled' : 'disabled' }.`);
-        return store.dispatch(`${ namespaced() }/getRouteData`, { storageKey, fetchKey, cache });
+        return VuexStore.dispatch(`${ namespaced() }/getRouteData`, { storageKey, fetchKey, cache });
     };
 }
 
@@ -84,7 +84,7 @@ export function createUrlKeys(compileFn, fetchUrl, params, query) {
  */
 function filterQueryParams(query = {}) {
     const result = Object.assign({ partials: [] }, cloneDeep(query));
-    const partials = store.state[namespaced()].partials;
+    const partials = VuexStore.state[namespaced()].partials;
 
     result.partials = result.partials.filter(name => !partials[name]);
 

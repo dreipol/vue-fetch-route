@@ -1,5 +1,6 @@
 import resolve from 'rollup-plugin-node-resolve';
 import commonjs from 'rollup-plugin-commonjs';
+import buble from 'rollup-plugin-buble';
 
 
 export default {
@@ -8,6 +9,7 @@ export default {
         resolve({
             jsnext: true,
         }),
+        buble(),
         commonjs(),
     ],
     output: [

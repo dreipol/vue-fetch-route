@@ -6,7 +6,7 @@ import { setEndpoint, removeQueryParams } from './helpers';
 
 
 export let GlobalVue;
-export let store;
+export let VuexStore;
 export let config;
 const plugin = {};
 
@@ -17,12 +17,7 @@ plugin.install = function(Vue, presets) {
     config = createConfig(presets);
 
     GlobalVue = Vue;
-    Vue.$routeFetch = {
-        connect,
-        decorateRecords,
-        compareRecords,
-        invokeFetch,
-    };
+    Vue.$routeFetch = { connect, decorateRecords, compareRecords, invokeFetch };
 };
 
 export default plugin;
@@ -30,18 +25,18 @@ export default plugin;
 
 /**
  * Wire up a vuex store with the app
- * @param {Object} vuexStore - A vuex store containing the `router` module
+ * @param {Object} store - A vuex store containing the `router` module
  * @return {Function} Unsync function
  */
-function connect(vuexStore) {
+function connect(store) {
     const { vuex } = config;
     const name = vuex.namespace ? [vuex.namespace, vuex.module] : vuex.module;
 
-    store = vuexStore;
-    store.registerModule(name, module);
+    VuexStore = store;
+    VuexStore.registerModule(name, module);
 
     return () => {
-        store.unregisterModule(name);
+        VuexStore.unregisterModule(name);
     };
 }
 
@@ -52,56 +47,59 @@ function connect(vuexStore) {
  * @return {Array} The enhanced route records, ready for being used by `vue-router`
  */
 function decorateRecords(records = [], parents = []) {
-    /**
-     * Create a route descriptor ready for consumation by `vue-router`
-     * @param {Object} record - The base config object received from the server
-     * @param {string} record.name - The page's name
-     * @param {string} record.path - The base path prior to any manipulation by params or query
-     * @param {string} record.component - The component name used by the route
-     * @param {Array} record.children - A list of child route definitions
-     * @param {string|Array<string>} record.alias - A list of child route definitions
-     * @param {string} record.redirect - A list of child route definitions
-     * @param {Object} record.meta - An object of properties that shall be available later on in the route
-     * @param {Object} record.api - The api definition containing all necessary info to fetch and store this route's data
-     * @param {Object} record.api.fetch - The fetch definition used to create the api endpoint
-     * @param {Object} record.api.fetched - A data object, containing prefetched data from the server
-     */
-    return records.map(({ name, path, component, children, alias, redirect, meta = {}, api = {} }) => {
-        let { fetch, fetched } = api;
-        let result = { name, path, meta, alias, redirect };
-        let hierarchy = parents.slice();
+    return records.map(record => decorateRecord(Object.assign({}, record, { parents })));
+}
 
-        // Add the current route to its own hierarchy
-        hierarchy.push(name);
+/**
+ * Create a route descriptor ready for consumation by `vue-router`
+ * @param {Object} record - The base config object received from the server
+ * @param {string} record.name - The page's name
+ * @param {string} record.path - The base path prior to any manipulation by params or query
+ * @param {string} record.component - The component name used by the route
+ * @param {Array} record.children - A list of child route definitions
+ * @param {string|Array<string>} record.alias - A list of child route definitions
+ * @param {string} record.redirect - A list of child route definitions
+ * @param {Object} record.meta - An object of properties that shall be available later on in the route
+ * @param {Object} record.api - The api definition containing all necessary info to fetch and store this route's data
+ * @param {Object} record.api.fetch - The fetch definition used to create the api endpoint
+ * @param {Object} record.api.fetched - A data object, containing prefetched data from the server
+ * @return {Object} A newly created route record
+ */
+function decorateRecord({ name, path, component, children, alias, redirect, meta = {}, api = {}, parents }) {
+    let { fetch, fetched } = api;
+    let result = { name, path, meta, alias, redirect };
+    let hierarchy = parents.slice();
 
-        // Recursively transform child records
-        result.children = children && decorateRecords(children, hierarchy);
+    // Add the current route to its own hierarchy
+    hierarchy.push(name);
 
-        if (!redirect && !alias) {
-            let page = `page-${ component }`;
-            let fetchMethod = setEndpoint(fetch);
+    // Recursively transform child records
+    result.children = children && decorateRecords(children, hierarchy);
 
-            // Invoke the vue component that is used for the route outlet
-            result.component = GlobalVue.component(page);
+    if (!redirect && !alias) {
+        let page = `page-${ component }`;
+        let fetchMethod = setEndpoint(fetch);
 
-            // Expose all properties that shall be available within the route component as `this.$route.meta`
-            Object.assign(result.meta, {
-                page, // String reference to the vue component's template
-                hierarchy, // String tuple of this route's parents including itself as the last index
-                api: Object.assign({ fetch: fetchMethod }, fetch),
-            });
+        // Invoke the vue component that is used for the route outlet
+        result.component = GlobalVue.component(page);
 
-            // Fetched data may already be present when initializing, store it in that case
-            if (fetched) {
-                result.meta.api.fetch(fetched);
-            }
+        // Expose all properties that shall be available within the route component as `this.$route.meta`
+        Object.assign(result.meta, {
+            page, // String reference to the vue component's template
+            hierarchy, // String tuple of this route's parents including itself as the last index
+            api: Object.assign({ fetch: fetchMethod }, fetch),
+        });
+
+        // Fetched data may already be present when initializing, store it in that case
+        if (fetched) {
+            result.meta.api.fetch(fetched);
         }
+    }
 
-        // Remove undefined object entries
-        Object.keys(result).forEach(key => result[key] === undefined && delete result[key]); // eslint-disable-line no-undefined
+    // Remove undefined object entries
+    Object.keys(result).forEach(key => result[key] === undefined && delete result[key]); // eslint-disable-line no-undefined
 
-        return result;
-    });
+    return result;
 }
 
 /**

@@ -4,7 +4,6 @@
   "description": "",
   "main": "dist/index.js",
   "jsnext:main": "src/index.js",
-  "module": "src/index.js",
   "scripts": {
     "prepare": "npm run build && npm test",
     "lint": "eslint src/index.js test.js rollup.config.js",
@@ -40,6 +39,7 @@
     "jsdom-global": "2.1.0",
     "mocha": "^4.0.1",
     "rollup": "^0.52.0",
+    "rollup-plugin-buble": "^0.18.0",
     "rollup-plugin-commonjs": "^8.2.6",
     "rollup-plugin-node-resolve": "^2.0.0"
   },
