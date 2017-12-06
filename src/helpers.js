@@ -35,6 +35,7 @@ export function compileFetchUrl(fetchUrl, params, query) {
 /**
  * Register an api url and create a function through which api data can be accessed (via cache or api call)
  * @param {Object} fetch - A fetch endpoint definition
+ * @param {string} fetch.useCache - A flag to indicate whether to allow vuex store caching
  * @param {string} fetch.url - The basic url prior to any manipulation
  * @param {Object} fetch.params - A list of base params that are being merged with specific params, later on
  * @param {Object} fetch.query - A query object that is being merged with the specific query object, later on

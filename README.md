@@ -95,10 +95,10 @@ Register an api url and create a function through which api data can be accessed
 **Parameters**
 
 -   `fetch` **[Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)** A fetch endpoint definition
+    -   `fetch.useCache` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** A flag to indicate whether to allow vuex store caching (optional, default `true`)
     -   `fetch.url` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** The basic url prior to any manipulation
     -   `fetch.params` **[Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)** A list of base params that are being merged with specific params, later on
     -   `fetch.query` **[Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)** A query object that is being merged with the specific query object, later on
-    -   `fetch.cache`   (optional, default `true`)
 
 Returns **[Function](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function)** Return a handler function for accessing fetch data via a returned promise
 
