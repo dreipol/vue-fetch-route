@@ -17,7 +17,7 @@ plugin.install = function(Vue, presets) {
     config = createConfig(presets);
 
     GlobalVue = Vue;
-    Vue.$routeFetch = { connect, decorateRecords, compareRecords, invokeFetch };
+    Vue.$fetchRoute = { connect, decorateRecords, compareRecords, invokeFetch };
 };
 
 export default plugin;
