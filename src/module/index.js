@@ -3,9 +3,6 @@ import { GlobalVue } from '../index';
 import * as types from './mutation-types';
 import * as actions from './actions';
 
-/**
- * The mutations available in the module
- */
 const mutations = {
     [types.SET_ROUTE_DATA](state, { key, value }) {
         GlobalVue.set(state.routes, key, value);
@@ -18,9 +15,6 @@ const mutations = {
     },
 };
 
-/**
- * The state of the module
- */
 const state = {
     isLoading: false,
     routes: {},

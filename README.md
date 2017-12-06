@@ -70,14 +70,6 @@ Start a fetch request
 
 Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)** A promise returning route data of a page
 
-### mutations
-
-The mutations available in the module
-
-### state
-
-The state of the module
-
 ### setRouteData
 
 Commit available route data into the vuex store
