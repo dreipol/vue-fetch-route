@@ -25,6 +25,7 @@ export default plugin;
 
 /**
  * Wire up a vuex store with the app
+ * @access public
  * @param {Object} store - A vuex store containing the `router` module
  * @return {Function} Unsync function
  */
@@ -42,6 +43,7 @@ function connect(store) {
 
 /**
  * Route config creation helper
+ * @access public
  * @param {Array} records - A route record array describing a list of available routes
  * @param {Array} parents - The records' parental hierarchy, the first item being the oldest
  * @return {Array} The enhanced route records, ready for being used by `vue-router`
@@ -52,6 +54,7 @@ function decorateRecords(records = [], parents = []) {
 
 /**
  * Create a route descriptor ready for consumation by `vue-router`
+ * @access private
  * @param {Object} record - The base config object received from the server
  * @param {string} record.name - The page's name
  * @param {string} record.path - The base path prior to any manipulation by params or query
@@ -59,13 +62,14 @@ function decorateRecords(records = [], parents = []) {
  * @param {Array} record.children - A list of child route definitions
  * @param {string|Array<string>} record.alias - A list of child route definitions
  * @param {string} record.redirect - A list of child route definitions
+ * @param {Array} record.parents - The records' parental hierarchy, the first item being the oldest
  * @param {Object} record.meta - An object of properties that shall be available later on in the route
  * @param {Object} record.api - The api definition containing all necessary info to fetch and store this route's data
  * @param {Object} record.api.fetch - The fetch definition used to create the api endpoint
  * @param {Object} record.api.fetched - A data object, containing prefetched data from the server
  * @return {Object} A newly created route record
  */
-function decorateRecord({ name, path, component, children, alias, redirect, meta = {}, api = {}, parents }) {
+function decorateRecord({ name, path, component, children, alias, redirect, parents, meta = {}, api = {} }) {
     let { fetch, fetched } = api;
     let result = { name, path, meta, alias, redirect };
     let hierarchy = parents.slice();
@@ -104,6 +108,7 @@ function decorateRecord({ name, path, component, children, alias, redirect, meta
 
 /**
  * Compare two route definitions, ignoring irrelevant information such as hash
+ * @access public
  * @param {Object} to - A route record describing the previous location
  * @param {Object} from - A route record describing the next location
  * @return {boolean} A flag indicating if two records are identical
@@ -118,6 +123,7 @@ function compareRecords(to, from) {
 
 /**
  * Start a fetch request
+ * @access public
  * @param {Object} route - A route descriptor object
  * @param {Object} route.params - All currently active params
  * @param {Object} route.query - The currently active query object

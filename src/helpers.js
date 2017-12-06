@@ -4,6 +4,7 @@ import { config, VuexStore } from './index';
 
 /**
  * Access namespaced module in vuex store
+ * @access private
  * @return {string} The namespaced module name
  */
 function namespaced() {
@@ -13,6 +14,7 @@ function namespaced() {
 
 /**
  * Compile full fetch api endpoint by using params and query objects
+ * @access private
  * @param {string} fetchUrl - A base string, used as a template
  * @param {Object} params - A params object that fills the params gap in the `fetchUrl` template string
  * @param {Object} query - A query object that is being appended to the `fetchUrl` template string
@@ -34,6 +36,7 @@ export function compileFetchUrl(fetchUrl, params, query) {
 
 /**
  * Register an api url and create a function through which api data can be accessed (via cache or api call)
+ * @access private
  * @param {Object} fetch - A fetch endpoint definition
  * @param {string} fetch.useCache - A flag to indicate whether to allow vuex store caching
  * @param {string} fetch.url - The basic url prior to any manipulation
@@ -64,6 +67,7 @@ export function setEndpoint({ useCache = true, url, params: presetParams, query:
 
 /**
  * Create endpoint urls for fetching and storing
+ * @access private
  * @param {Function} compileFn - The method to compile a fetch/storage url out of a raw url
  * @param {string} fetchUrl - The raw url
  * @param {Object} params - The params object
@@ -79,6 +83,7 @@ export function createUrlKeys(compileFn, fetchUrl, params, query) {
 
 /**
  * Filter query params for djangoCMS static placeholders
+ * @access private
  * @param {Object} query - The input query object
  * @param {Vuex.Store} store - The vuex store object
  * @return {Object} The filtered query object
@@ -98,6 +103,7 @@ function filterQueryParams(query = {}) {
 
 /**
  * Remove query params for djangoCMS static placeholders
+ * @access private
  * @param {Object} query - The query object
  * @return {Object} The stripped query object
  */
