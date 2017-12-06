@@ -1,4 +1,99 @@
-# @dreipol/vue-fetch-route
+# vue-fetch-route
+This npm package provides various helper methods to ease the pain of fetching, storing and reaccessing route based data
+with vue, vuex and vue-router.
+
+## Quickstart
+
+1. Install the module
+    ```bash
+    npm install -S vue-fetch-route 
+    ```
+
+1. Register the plugin to your Vue instance
+   
+   ```js
+   import VueFetchRoute from 'vue-fetch-route';
+    
+   Vue.use(VueFetchRoute, {
+       log: window.console.log,
+       request: window.fetch,
+   });
+   ```
+
+1. Initialize `vuex` and use `connect` to register the plugin to your store 
+
+   ```js
+   const store = new Vuex.Store();
+   const unsync = Vue.$fetchRoute.connect(store);
+
+   const App = new Vue({
+       store
+   }); 
+   ```
+    
+1. Initialize `vue-router` and use `decorateRecords` to prepare your route records
+    
+   ```js
+       const myRoutes = [/* your route records */];
+   
+       const router = new VueRouter({
+           routes: Vue.$fetchRoute.decorateRecords(myRoutes)
+       });
+   ```
+   
+1. In your page components, use `invokeFetch` to initialize a data fetch
+
+   ```js
+   const PageComponent = {
+       beforeRouteEnter(to, from, next) {
+           const Fetched = Vue.$fetchRoute.invokeFetch(to);
+           next(vm => {
+               Fetched.then(vm.receiveFetched);
+           });
+       },
+       beforeRouteUpdate(to, from, next) {
+           const Fetched = Vue.$fetchRoute.invokeFetch(to);
+           Fetched.then(this.receiveFetched);
+           next();
+       }, 
+   };
+   ```
+   
+## Route records - additional fields
+To enable automatic fetch, your RouteConfigs need a few more properties to work with this plugin.
+This is a full example with all the possible keys and values of an enhanced route:
+
+```js
+const route = {
+    'path': '/', // basic vue-router property
+    'name': 'cms-page-2', // basic vue-router property
+    'component': {}, // basic vue-router property
+    'api': {
+        'fetched': {
+            'response': {
+                'data': {},
+                'partials': {},
+            },
+        }, 
+        'fetch': { 
+            'url': '/api/pages/', 
+            'query': { 
+                'partials': ['menu', 'footer'] 
+            }, 
+            'cache': true 
+        },
+    },
+}
+```
+
+## Config
+
+
+### log
+
+### request
+
+### ignoredQueryParams
 
 ## API
 

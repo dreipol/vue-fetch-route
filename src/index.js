@@ -56,9 +56,9 @@ function decorateRecords(records = [], parents = []) {
  * Create a route descriptor ready for consumation by `vue-router`
  * @access private
  * @param {Object} record - The base config object received from the server
- * @param {string} record.name - The page's name
  * @param {string} record.path - The base path prior to any manipulation by params or query
  * @param {string} record.component - The component name used by the route
+ * @param {string} record.name - The page's name
  * @param {Array} record.children - A list of child route definitions
  * @param {string|Array<string>} record.alias - A list of child route definitions
  * @param {string} record.redirect - A list of child route definitions
@@ -69,9 +69,9 @@ function decorateRecords(records = [], parents = []) {
  * @param {Object} record.api.fetched - A data object, containing prefetched data from the server
  * @return {Object} A newly created route record
  */
-function decorateRecord({ name, path, component, children, alias, redirect, parents, meta = {}, api = {} }) {
+function decorateRecord({ path, component, name, children, alias, redirect, parents, meta = {}, api = {} }) {
     let { fetch, fetched } = api;
-    let result = { name, path, meta, alias, redirect };
+    let result = { path, component, name, alias, redirect, meta };
     let hierarchy = parents.slice();
 
     // Add the current route to its own hierarchy
@@ -81,15 +81,10 @@ function decorateRecord({ name, path, component, children, alias, redirect, pare
     result.children = children && decorateRecords(children, hierarchy);
 
     if (!redirect && !alias) {
-        let page = `page-${ component }`;
         let fetchMethod = setEndpoint(fetch);
-
-        // Invoke the vue component that is used for the route outlet
-        result.component = GlobalVue.component(page);
 
         // Expose all properties that shall be available within the route component as `this.$route.meta`
         Object.assign(result.meta, {
-            page, // String reference to the vue component's template
             hierarchy, // String tuple of this route's parents including itself as the last index
             api: Object.assign({ fetch: fetchMethod }, fetch),
         });
