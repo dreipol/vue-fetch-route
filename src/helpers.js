@@ -40,7 +40,7 @@ export function compileFetchUrl(fetchUrl, params, query) {
  * @param {Object} fetch.query - A query object that is being merged with the specific query object, later on
  * @return {Function} - Return a handler function for accessing fetch data via a returned promise
  */
-export function setEndpoint({ cache = true, url, params: presetParams, query: presetQuery }) {
+export function setEndpoint({ useCache = true, url, params: presetParams, query: presetQuery }) {
     return function fetch({ params: routeParams, query: routeQuery, response }) {
         // Merge params and query with route presets
         const params = Object.assign({}, presetParams, routeParams);
@@ -56,8 +56,8 @@ export function setEndpoint({ cache = true, url, params: presetParams, query: pr
         }
 
         // Fetch data from compiled endpoint
-        config.log.debug(`Fetching data for URL '${ fetchKey }'... Caching is ${ cache ? 'enabled' : 'disabled' }.`);
-        return VuexStore.dispatch(`${ namespaced() }/getRouteData`, { storageKey, fetchKey, cache });
+        config.log.debug(`Fetching data for URL '${ fetchKey }'... Caching is ${ useCache ? 'enabled' : 'disabled' }.`);
+        return VuexStore.dispatch(`${ namespaced() }/getRouteData`, { storageKey, fetchKey, useCache });
     };
 }
 

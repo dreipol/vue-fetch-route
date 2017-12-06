@@ -70,33 +70,6 @@ Start a fetch request
 
 Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)** A promise returning route data of a page
 
-### setRouteData
-
-Commit available route data into the vuex store
-
-**Parameters**
-
--   `$0` **[Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)** 
-    -   `$0.commit`  
--   `$1` **[Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)** 
-    -   `$1.key`  
-    -   `$1.value`  
-
-### getRouteData
-
-Retrieve route data from the store, conditionally requesting it from the api endpoint if not available
-
-**Parameters**
-
--   `$0` **[Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)** 
-    -   `$0.commit`  
-    -   `$0.state`  
-    -   `$0.dispatch`  
--   `$1` **[Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)** 
-    -   `$1.storageKey`  
-    -   `$1.fetchKey`  
-    -   `$1.cache`  
-
 ### namespaced
 
 Access namespaced module in vuex store
