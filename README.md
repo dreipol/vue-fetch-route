@@ -7,7 +7,7 @@ However, these helpers might also come in handy for other environments and are n
 
 ## Quickstart
 
-1. Install the module
+1.  Install the module
 
     ```bash
     npm install -S vue-fetch-route 
@@ -24,7 +24,7 @@ However, these helpers might also come in handy for other environments and are n
     });
     ```
 
-3.  Initialize `vuex` and use `connect` to register the plugin to your store 
+3.  Initialize `vuex` and use `connect` to register the plugin to your store. Please see also [Route records - Additional fields](#route-records---additional-fields)
 
     ```js
     const store = new Vuex.Store();
@@ -68,7 +68,7 @@ However, these helpers might also come in handy for other environments and are n
     };
     ```
 
-## Route records - additional fields
+## Route records - Additional fields
 
 To enable automatic fetch, your RouteConfigs need a few more properties to work with this plugin.
 This is a full example with all the possible keys and values of an enhanced route:
