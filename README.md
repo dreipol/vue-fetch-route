@@ -1,7 +1,9 @@
 # vue-fetch-route
 
 This npm package provides various helper methods to ease the pain of fetching, storing and reaccessing route based data
-with vue, vuex and vue-router.
+with `vue`, `vuex` and `vue-router`.
+It is intended to work in tandem with django-cms and its two plugins [`djangocms-spa`](https://github.com/dreipol/djangocms-spa) and [`djangocms-spa-vue-js`](https://github.com/dreipol/djangocms-spa-vue-js).<br>
+However, these helpers might also come in handy for other environments and are not at all coupled to python or django.
 
 ## Quickstart
 
@@ -109,6 +111,10 @@ const route = {
     },
 }
 ```
+
+### A word about `partials`
+Partials are intended to work as data equivalents to `static placeholders` from django-cms. Those are cached separately
+and won't be requested a second time. Using partials is completely optional.
 
 ## Config
 
