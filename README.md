@@ -24,7 +24,8 @@ However, these helpers might also come in handy for other environments and are n
     });
     ```
 
-3.  Initialize `vuex` and use `connect` to register the plugin to your store. Please see also [Route records - Additional fields](#route-records---additional-fields)
+3.  Initialize `vuex` and use `connect` to register the plugin to your store. <br> 
+    Please see also [Route records - Additional fields](#route-records---additional-fields)
 
     ```js
     const store = new Vuex.Store();
