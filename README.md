@@ -1,99 +1,135 @@
 # vue-fetch-route
+
 This npm package provides various helper methods to ease the pain of fetching, storing and reaccessing route based data
 with vue, vuex and vue-router.
 
 ## Quickstart
 
 1. Install the module
+
     ```bash
     npm install -S vue-fetch-route 
     ```
 
-1. Register the plugin to your Vue instance
-   
-   ```js
-   import VueFetchRoute from 'vue-fetch-route';
-    
-   Vue.use(VueFetchRoute, {
-       log: window.console.log,
-       request: window.fetch,
-   });
-   ```
+2.  Register the plugin to your Vue instance
 
-1. Initialize `vuex` and use `connect` to register the plugin to your store 
+    ```js
+    import VueFetchRoute from 'vue-fetch-route';
+     
+    Vue.use(VueFetchRoute, {
+        log: window.console.log,
+        fetch: window.fetch,
+    });
+    ```
 
-   ```js
-   const store = new Vuex.Store();
-   const unsync = Vue.$fetchRoute.connect(store);
+3.  Initialize `vuex` and use `connect` to register the plugin to your store 
 
-   const App = new Vue({
-       store
-   }); 
-   ```
-    
-1. Initialize `vue-router` and use `decorateRecords` to prepare your route records
-    
-   ```js
-       const myRoutes = [/* your route records */];
-   
-       const router = new VueRouter({
-           routes: Vue.$fetchRoute.decorateRecords(myRoutes)
-       });
-   ```
-   
-1. In your page components, use `invokeFetch` to initialize a data fetch
+    ```js
+    const store = new Vuex.Store();
+    const unsync = Vue.$fetchRoute.connect(store);
 
-   ```js
-   const PageComponent = {
-       beforeRouteEnter(to, from, next) {
-           const Fetched = Vue.$fetchRoute.invokeFetch(to);
-           next(vm => {
-               Fetched.then(vm.receiveFetched);
-           });
-       },
-       beforeRouteUpdate(to, from, next) {
-           const Fetched = Vue.$fetchRoute.invokeFetch(to);
-           Fetched.then(this.receiveFetched);
-           next();
-       }, 
-   };
-   ```
-   
+    const App = new Vue({
+        store
+    }); 
+    ```
+
+4.  Initialize `vue-router` and use `decorateRecords` to prepare your route records
+
+    ```js
+        const myRoutes = [/* your route records */];
+
+        const router = new VueRouter({
+            routes: Vue.$fetchRoute.decorateRecords(myRoutes)
+        });
+    ```
+
+5.  In your page components, use `invokeFetch` to initialize a data fetch
+
+    ```js
+    const PageComponent = {
+        methods: {
+            receiveData(data) {
+                this.$set(this.$data, 'routeData', data);            
+            }
+        },
+        beforeRouteEnter(to, from, next) {
+            const Fetched = Vue.$fetchRoute.invokeFetch(to);
+            next(vm => {
+                Fetched.then(vm.receiveFetched);
+            });
+        },
+        beforeRouteUpdate(to, from, next) {
+            const Fetched = Vue.$fetchRoute.invokeFetch(to);
+            Fetched.then(this.receiveFetched);
+            next();
+        }, 
+    };
+    ```
+
 ## Route records - additional fields
+
 To enable automatic fetch, your RouteConfigs need a few more properties to work with this plugin.
 This is a full example with all the possible keys and values of an enhanced route:
 
 ```js
 const route = {
-    'path': '/', // basic vue-router property
-    'name': 'cms-page-2', // basic vue-router property
-    'component': {}, // basic vue-router property
+    'path': '/user/:username/dashboard', // basic vue-router property
+    'name': 'user-dashboard', // basic vue-router property
+    'component': UserDashboard, // basic vue-router property
     'api': {
-        'fetched': {
-            'response': {
-                'data': {},
-                'partials': {},
-            },
-        }, 
         'fetch': { 
-            'url': '/api/pages/', 
-            'query': { 
-                'partials': ['menu', 'footer'] 
+            // Provide the raw url under which the page data can be fetched
+            'url': '/api/user/:username/dashboard',
+            // This query object will be added to the url before fetching
+            'query': {
+                // Load those partials when navigating to this route
+                'partials': ['menu', 'footer'],
             }, 
+            // Allow or disallow caching the route data in the vuex store 
             'cache': true 
         },
+        // It's possible to prefill one or all of the pages with initial data to avoid fetching altogether!
+        'fetched': {
+            'response': {
+                // These are basic page data that can be inserted into the page
+                'data': { 'title': 'Welcome back, robomaiden!' },
+                // This is a special object that contains shared component data like a menu or a footer
+                'partials': {
+                    'menu': { 'home': '/' },
+                    'footer': { 'text': 'say hello to the footer' },
+                }
+            },
+            // In order to store the response under the right url, we need params and the query:
+            'params': { 'username': 'robomaiden' }, 
+            'query': {  
+                'partials': ['menu', 'footer'], 
+                'favs': 'pokémon'
+            }
+        } 
     },
 }
 ```
 
 ## Config
 
+<!-- Generated by documentation.js. Update this documentation by updating the source code. -->
 
 ### log
 
-### request
+Log method to gain some insights about route navigation and data storing
+
+### fetch
+
+Method used to invoke when fetching data
 
 ### ignoredQueryParams
+
+A list of query params that are ignored when defining the key to store the data.<br>
+This is important to avoid storing data copies of the same route under different keys.
+
+### vuexModule
+
+The name that is used to register the vuex module to the store
 
 ## API
 
@@ -138,8 +174,8 @@ Start a fetch request
 **Parameters**
 
 -   `route` **[Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)** A route descriptor object
+    -   `route.meta` **[Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)** The route's meta property
     -   `route.params` **[Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)** All currently active params
     -   `route.query` **[Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)** The currently active query object
-    -   `route.meta`  
 
 Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)** A promise returning route data of a page

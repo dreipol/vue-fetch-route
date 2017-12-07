@@ -43,7 +43,7 @@ export function getRouteData({ commit, state, dispatch }, { storageKey, fetchKey
     let FetchPromise = state.routes[storageKey];
     const hasCache = (useCache && FetchPromise);
 
-    config.log.debug(`Using ${ hasCache ? 'cached' : 'api' } data`);
+    config.log(`Using ${ hasCache ? 'cached' : 'api' } data`);
 
     if (hasCache) {
         return FetchPromise;
@@ -52,7 +52,7 @@ export function getRouteData({ commit, state, dispatch }, { storageKey, fetchKey
     return new Promise((resolve, reject) => {
         commit(types.SET_LOADING_STATE, { isLoading: true });
 
-        config.request(fetchKey).then(
+        config.fetch(fetchKey).then(
             request => {
                 resolve(dispatch('setRouteData', { key: storageKey, value: request.data }));
                 commit(types.SET_LOADING_STATE, { isLoading: false });

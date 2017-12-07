@@ -8,7 +8,9 @@
     "prepare": "npm run build && npm test",
     "lint": "eslint src/index.js test.js rollup.config.js",
     "build": "rollup -c",
-    "doc": "documentation readme src/index.js --section=API",
+    "doc": "npm run doc-config && npm run doc-api",
+    "doc-config": "documentation readme src/presets.js --section=Config",
+    "doc-api": "documentation readme src/index.js --section=API",
     "test": "npm run lint && mocha test.js"
   },
   "files": [

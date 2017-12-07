@@ -8,7 +8,8 @@ import { config, VuexStore } from './index';
  * @return {string} The namespaced module name
  */
 function namespaced() {
-    return `${ config.vuex.namespace }${ config.vuex.module }`;
+    const { vuexModule } = config;
+    return Array.isArray(vuexModule) ? vuexModule.join('/') : vuexModule;
 }
 
 
@@ -55,12 +56,12 @@ export function setEndpoint({ useCache = true, url, params: presetParams, query:
 
         // Push available data into the store's endpoint address
         if (response) {
-            config.log.debug(`Saving prefetched data for URL '${ storageKey }'`);
+            config.log(`Saving prefetched data for URL '${ storageKey }'`);
             return VuexStore.dispatch(`${ namespaced() }/setRouteData`, { key: storageKey, value: response });
         }
 
         // Fetch data from compiled endpoint
-        config.log.debug(`Fetching data for URL '${ fetchKey }'... Caching is ${ useCache ? 'enabled' : 'disabled' }.`);
+        config.log(`Fetching data for URL '${ fetchKey }'... Caching is ${ useCache ? 'enabled' : 'disabled' }.`);
         return VuexStore.dispatch(`${ namespaced() }/getRouteData`, { storageKey, fetchKey, useCache });
     };
 }

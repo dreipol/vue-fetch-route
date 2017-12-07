@@ -30,11 +30,8 @@ export default plugin;
  * @return {Function} Unsync function
  */
 function connect(store) {
-    const { vuex } = config;
-    const name = vuex.namespace ? [vuex.namespace, vuex.module] : vuex.module;
-
     VuexStore = store;
-    VuexStore.registerModule(name, module);
+    VuexStore.registerModule(config.vuexModule, module);
 
     return () => {
         VuexStore.unregisterModule(name);
@@ -122,6 +119,7 @@ function compareRecords(to, from) {
  * @param {Object} route - A route descriptor object
  * @param {Object} route.params - All currently active params
  * @param {Object} route.query - The currently active query object
+ * @param {Object} route.meta - The route's meta property
  * @return {Promise} A promise returning route data of a page
  */
 function invokeFetch({ meta, params, query }) {
