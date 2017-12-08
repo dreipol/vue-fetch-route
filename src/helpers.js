@@ -117,3 +117,9 @@ export function removeQueryParams(query = {}) {
 
     return result;
 }
+
+/**
+ * Does nothing...
+ * @return {undefined} returns nothing...
+ */
+export function noop() {}

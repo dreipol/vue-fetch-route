@@ -4,10 +4,11 @@ import { createConfig } from './create-config';
 import module from './module';
 import { setEndpoint, removeQueryParams } from './helpers';
 
-
+// TODO: avoid to export undefined globals, redefined somewhere else
 export let GlobalVue;
 export let VuexStore;
 export let config;
+
 const plugin = {};
 
 plugin.install = function(Vue, presets) {
