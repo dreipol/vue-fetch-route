@@ -6,7 +6,7 @@ export const presets = Object.freeze({
      * @default
      * @type {Function}
      */
-    log: typeof window.console === 'function' ? window.console.log.bind(console) : noop,
+    log: window.console.log,
     /**
      * Method used to invoke when fetching data
      * @default
