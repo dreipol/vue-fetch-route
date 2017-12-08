@@ -1,10 +1,12 @@
-export const presets = {
+import { noop } from './helpers';
+
+export const presets = Object.freeze({
     /**
      * Log method to gain some insights about route navigation and data storing
      * @default
      * @type {Function}
      */
-    log: window.console.log,
+    log: typeof window.console === 'function' ? window.console.log.bind(console) : noop,
     /**
      * Method used to invoke when fetching data
      * @default
@@ -33,4 +35,4 @@ export const presets = {
      * @type {string}
      */
     vuexModule: 'vue-fetch-route',
-};
+});

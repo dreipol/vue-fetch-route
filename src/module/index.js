@@ -3,7 +3,7 @@ import { GlobalVue } from '../index';
 import * as types from './mutation-types';
 import * as actions from './actions';
 
-const mutations = {
+const mutations = Object.freeze({
     [types.SET_ROUTE_DATA](state, { key, value }) {
         GlobalVue.set(state.routes, key, value);
     },
@@ -13,13 +13,13 @@ const mutations = {
     [types.SET_LOADING_STATE](state, { isLoading }) {
         state.isLoading = isLoading;
     },
-};
+});
 
-const state = {
+const state = Object.seal({
     isLoading: false,
     routes: {},
     partials: {},
-};
+});
 
 
 export default {
