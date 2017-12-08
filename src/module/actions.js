@@ -53,8 +53,8 @@ export function getRouteData({ commit, state, dispatch }, { storageKey, fetchKey
         commit(types.SET_LOADING_STATE, { isLoading: true });
 
         config.fetch(fetchKey).then(
-            request => {
-                resolve(dispatch('setRouteData', { key: storageKey, value: request.data }));
+            value => {
+                resolve(dispatch('setRouteData', { key: storageKey, value }));
                 commit(types.SET_LOADING_STATE, { isLoading: false });
             },
             err => {
