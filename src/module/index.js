@@ -3,7 +3,7 @@ import { GlobalVue } from '../index';
 import * as types from './mutation-types';
 import * as actions from './actions';
 
-const mutations = Object.seal({
+const mutations = Object.freeze({
     [types.SET_ROUTE_DATA](state, { key, value }) {
         GlobalVue.set(state.routes, key, value);
     },
