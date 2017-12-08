@@ -31,10 +31,6 @@ However, these helpers might also come in handy for other environments and are n
     ```js
     const store = new Vuex.Store();
     const unsync = Vue.$fetchRoute.connect(store);
-
-    const App = new Vue({
-        store
-    }); 
     ```
 
 4.  Initialize `vue-router` and use `decorateRecords` to prepare your route records
@@ -47,9 +43,14 @@ However, these helpers might also come in handy for other environments and are n
         });
     ```
 
-5.  In your page components, use `invokeFetch` to initialize a data fetch
+5.  Init your app, use `invokeFetch` in your page components to initialize a data fetch
 
     ```js
+    const App = new Vue({
+        store,
+        router,
+    }); 
+    
     const PageComponent = {
         beforeRouteEnter(to, from, next) {
             const Fetched = Vue.$fetchRoute.invokeFetch(to);

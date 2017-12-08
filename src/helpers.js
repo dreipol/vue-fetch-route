@@ -1,5 +1,5 @@
 import cloneDeep from 'lodash.clonedeep';
-import { config, VuexStore } from './index';
+import { config, VuexStore, decorateRecords } from './index';
 
 
 /**
@@ -12,6 +12,53 @@ function namespaced() {
     return Array.isArray(vuexModule) ? vuexModule.join('/') : vuexModule;
 }
 
+/**
+ * Create a route descriptor ready for consumation by `vue-router`
+ * @access private
+ * @param {Object} record - The base config object received from the server
+ * @param {Array} parents - The records' parental hierarchy, the first item being the oldest
+ * @return {Object} A newly created route record
+ */
+export function decorateRecord({ api = {}, ...record }, parents) {
+    let result = cloneDeep(record);
+    let { path, children, alias, redirect } = result;
+    let { fetch, fetched } = api;
+
+    // Add the current route to its own hierarchy
+    let hierarchy = parents.slice();
+    hierarchy.push(path);
+
+    // Recursively transform child records
+    if (children) {
+        result.children = decorateRecords(children, hierarchy);
+    }
+
+    if (!fetch) {
+        return record;
+    }
+
+    if (!redirect && !alias) {
+        // Expose all properties that shall be available within the route component as `this.$route.meta`
+        result.meta = {
+            ...(result.meta || {}),
+            hierarchy, // String tuple of this route's parents including itself as the last index
+            api: {
+                fetch: setEndpoint(fetch),
+                ...fetch,
+            },
+        };
+
+        // Fetched data may already be present when initializing, store it in that case
+        if (fetched) {
+            result.meta.api.fetch(fetched);
+        }
+    }
+
+    // Remove undefined object entries
+    Object.keys(result).forEach(key => result[key] === undefined && delete result[key]); // eslint-disable-line no-undefined
+
+    return result;
+}
 
 /**
  * Compile full fetch api endpoint by using params and query objects
@@ -45,8 +92,8 @@ export function compileFetchUrl(fetchUrl, params, query) {
  * @param {Object} fetch.query - A query object that is being merged with the specific query object, later on
  * @return {Function} - Return a handler function for accessing fetch data via a returned promise
  */
-export function setEndpoint({ useCache = true, url, params: presetParams, query: presetQuery }) {
-    return function fetch({ params: routeParams, query: routeQuery, response }) {
+function setEndpoint({ useCache = true, url, params: presetParams, query: presetQuery }) {
+    return function fetch({ params: routeParams, query: routeQuery, response } = {}) {
         // Merge params and query with route presets
         const params = Object.assign({}, presetParams, routeParams);
         const query = Object.assign({}, presetQuery, routeQuery);

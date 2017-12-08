@@ -6,12 +6,12 @@
   "jsnext:main": "src/index.js",
   "scripts": {
     "prepare": "npm run build && npm test",
-    "lint": "eslint src/index.js test.js rollup.config.js",
+    "lint": "eslint src/index.js test/test.js rollup.config.js",
     "build": "rollup -c",
     "doc": "npm run doc-api",
     "doc-config": "documentation readme src/presets.js --section='Plugin config'",
     "doc-api": "documentation readme src/index.js --section=API",
-    "test": "npm run lint && mocha test.js"
+    "test": "npm run lint && mocha test/test.js"
   },
   "files": [
     "dist/index.js",

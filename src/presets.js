@@ -1,5 +1,3 @@
-import { noop } from './helpers';
-
 export const presets = Object.freeze({
     /**
      * Log method to gain some insights about route navigation and data storing
