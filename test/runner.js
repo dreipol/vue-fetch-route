@@ -27,6 +27,7 @@ Vue.$fetchRoute.connect(global.store);
 describe('vue-fetch-route', () => {
     require('./decorate-records.spec');
     require('./connect.spec');
+    require('./compare-records.spec');
 
     afterEach(() => {
         global.store.dispatch('vue-fetch-route/flushCache');

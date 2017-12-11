@@ -62,7 +62,7 @@ export function decorateRecords(records = [], parents = []) {
 function compareRecords(to, from) {
     const hasSameName = to.name === from.name;
     const hasSameQuery = isEqual(removeQueryParams(to.query), removeQueryParams(from.query));
-    const hasSameParams = isEqual(to.params, from.params);
+    const hasSameParams = isEqual(to.params || {}, from.params || {});
 
     return hasSameName && hasSameQuery && hasSameParams;
 }

@@ -103,6 +103,8 @@ function setEndpoint({ useCache = true, url, params: presetParams, query: preset
         // Create compiled endpoint url
         const { fetchKey, storageKey } = createUrlKeys(compileFetchUrl, url, params, query);
 
+        debugger;
+
         // Push available data into the store's endpoint address
         if (response) {
             config.log(`Saving prefetched data for URL '${ storageKey }'`);
