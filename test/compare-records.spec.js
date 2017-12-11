@@ -1,20 +1,13 @@
 /* globals assert, Vue */
 
 describe('compare-records', () => {
-    let TestComponent;
-    let PluginStore;
-
-    beforeEach(function() {
-        TestComponent = new Vue({ store: global.store });
-        PluginStore = TestComponent.$store.state['vue-fetch-route'];
-    });
+    const { compareRecords } = Vue.$fetchRoute;
 
     it('should expose the plugin API', () => {
         assert.equal(typeof Vue.$fetchRoute.compareRecords, 'function');
     });
 
     it('compares two route records with each other', () => {
-        const { compareRecords } = Vue.$fetchRoute;
         const records = {
             a: { name: 'route-a' },
             b: { name: 'route-a', params: {}, query: {} },
