@@ -68,6 +68,12 @@ However, these helpers might also come in handy for other environments and are n
     };
     ```
 
+## Necessary polyfills
+
+The plugin uses the [URLSearchParams](https://developer.mozilla.org/en-US/docs/Web/API/URLSearchParams) API internally 
+to compile fetch and storage urls. You should add the [url-search-params polyfill](https://www.npmjs.com/package/url-search-params) 
+for MS Edge and Internet Explorer support. For detailed support tables, see the caniuse [support table](https://caniuse.com/#search=URLSearchParams).
+
 ## Route records - Additional fields
 
 To enable automatic fetch, your RouteConfigs need a few more properties to work with this plugin.
