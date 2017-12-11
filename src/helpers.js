@@ -7,7 +7,7 @@ import { config, VuexStore, decorateRecords } from './index';
  * @access private
  * @return {string} The namespaced module name
  */
-function namespaced() {
+export function namespaced() {
     const { vuexModule } = config;
     return Array.isArray(vuexModule) ? vuexModule.join('/') : vuexModule;
 }
@@ -70,13 +70,15 @@ export function decorateRecord({ api = {}, ...record }, parents) {
  */
 export function compileFetchUrl(fetchUrl, params, query) {
     // Leverage params object to compile fetch url
-    fetchUrl = Object.entries(params).reduce((url, [key, val]) => {
-        return url.replace(`:${ key }`, val);
-    }, fetchUrl);
+    fetchUrl = Object.keys(params)
+        .map((key, _, arr) => [key, arr[key]])
+        .reduce((url, [key, val]) => url.replace(`:${ key }`, val), fetchUrl);
 
     // Leverage query object to compile fetch url
-    const searchParams = new URLSearchParams();
-    Object.entries(query).forEach(([key, val]) => searchParams.append(key, val));
+    const searchParams = new window.URLSearchParams();
+    Object.keys(query)
+        .map((key, _, arr) => [key, arr[key]])
+        .forEach(([key, val]) => searchParams.append(key, val));
     const search = searchParams.toString();
 
     return `${ fetchUrl }${ search.length ? '?' : '' }${ search }`;

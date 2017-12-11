@@ -18,9 +18,11 @@ export function setRouteData({ commit }, { key, value }) {
     const FetchPromise = Promise.resolve(data);
 
     // Implement enclosed partials data, when the route data is written to the store
-    Object.entries(partials).forEach(([partialKey, partialValue]) => {
-        commit(types.SET_PARTIALS_DATA, { key: partialKey, value: partialValue });
-    });
+    Object.keys(partials)
+        .map((partialKey, _, arr) => [partialKey, arr[partialKey]])
+        .forEach(([partialKey, partialValue]) => {
+            commit(types.SET_PARTIALS_DATA, { key: partialKey, value: partialValue });
+        });
 
     // Commit promise to store
     commit(types.SET_ROUTE_DATA, { key, value: FetchPromise });
@@ -63,4 +65,13 @@ export function getRouteData({ commit, state, dispatch }, { storageKey, fetchKey
             },
         );
     });
+}
+
+/**
+ * Remove all routes from the cache
+ * @access private
+ * @param {Object} context - A vuex action context object
+ */
+export function flushCache({ commit }) {
+    commit(types.FLUSH_CACHE);
 }

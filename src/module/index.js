@@ -13,6 +13,10 @@ const mutations = Object.freeze({
     [types.SET_LOADING_STATE](state, { isLoading }) {
         state.isLoading = isLoading;
     },
+    [types.FLUSH_CACHE](state) {
+        GlobalVue.set(state, 'routes', {});
+        GlobalVue.set(state, 'partials', {});
+    },
 });
 
 const state = Object.seal({

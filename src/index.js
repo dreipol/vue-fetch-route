@@ -2,7 +2,7 @@ import isEqual from 'lodash.isequal';
 
 import { createConfig } from './create-config';
 import module from './module';
-import { removeQueryParams, decorateRecord } from './helpers';
+import { removeQueryParams, decorateRecord, namespaced } from './helpers';
 
 // TODO: Avoid to export undefined globals, redefined somewhere else
 export let GlobalVue;
@@ -31,11 +31,13 @@ export default plugin;
  * @return {Function} Unsync function
  */
 function connect(store) {
+    // console.log(store.state['vue-fetch-route']);
+
     VuexStore = store;
     VuexStore.registerModule(config.vuexModule, module);
 
     return () => {
-        VuexStore.unregisterModule(name);
+        VuexStore.unregisterModule(namespaced());
     };
 }
 

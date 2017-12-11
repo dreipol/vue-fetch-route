@@ -1,23 +1,6 @@
-/* eslint-env node, mocha */
-
-require('jsdom-global')();
-const assert = require('assert');
-const Vue = require('vue');
-const Vuex = require('vuex');
-// const VueRouter = require('vue-router');
-const VueFetchRoute = require('../dist');
-
-Vue.use(Vuex);
-Vue.use(VueFetchRoute.default);
-
-
+/* globals assert, Vue */
 describe('Vue.$fetchRoute.decorateRecords', () => {
-    beforeEach(function() {
-        const store = new Vuex.Store();
-        Vue.$fetchRoute.connect(store);
-
-        // new Vue({ store, router });
-    });
+    beforeEach(() => {});
 
     it('should expose the plugin API', () => {
         assert.equal(typeof Vue.$fetchRoute.decorateRecords, 'function');
@@ -47,14 +30,13 @@ describe('Vue.$fetchRoute.decorateRecords', () => {
 
     it('transforms a record accordingly', () => {
         const routes = Object.freeze([
-            { path: '/app', api: { fetch: { url: 'asdf' } } },
+            { path: '/app', api: { fetch: { url: '/api/app' } } },
         ]);
         const decoratedRoutes = Vue.$fetchRoute.decorateRecords(routes);
 
-        // console.log(decoratedRoutes[0]);
-
         assert.equal(decoratedRoutes[0].meta.hierarchy[0], routes[0].path, 'adds a hierarchy array');
         assert.equal(typeof decoratedRoutes[0].meta.api.fetch, 'function', 'has a fetch method');
-        assert.equal(decoratedRoutes[0].meta.api.fetch().constructor, 'Promise', 'fetch method returns a promise');
+        assert.equal(decoratedRoutes[0].meta.api.url, '/api/app', 'has a url value');
+        assert.equal(typeof decoratedRoutes[0].meta.api.fetch().then, 'function', 'fetch method returns a promise');
     });
 });
