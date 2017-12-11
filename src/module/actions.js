@@ -19,7 +19,7 @@ export function setRouteData({ commit }, { key, value }) {
 
     // Implement enclosed partials data, when the route data is written to the store
     Object.keys(partials)
-        .map((partialKey, _, arr) => [partialKey, arr[partialKey]])
+        .map((partialKey) => [partialKey, partials[partialKey]])
         .forEach(([partialKey, partialValue]) => {
             commit(types.SET_PARTIALS_DATA, { key: partialKey, value: partialValue });
         });

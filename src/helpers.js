@@ -71,13 +71,13 @@ export function decorateRecord({ api = {}, ...record }, parents) {
 export function compileFetchUrl(fetchUrl, params, query) {
     // Leverage params object to compile fetch url
     fetchUrl = Object.keys(params)
-        .map((key, _, arr) => [key, arr[key]])
+        .map(key => [key, params[key]])
         .reduce((url, [key, val]) => url.replace(`:${ key }`, val), fetchUrl);
 
     // Leverage query object to compile fetch url
     const searchParams = new window.URLSearchParams();
     Object.keys(query)
-        .map((key, _, arr) => [key, arr[key]])
+        .map(key => [key, query[key]])
         .forEach(([key, val]) => searchParams.append(key, val));
     const search = searchParams.toString();
 
