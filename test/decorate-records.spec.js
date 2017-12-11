@@ -1,5 +1,5 @@
 /* globals assert, Vue */
-describe('Vue.$fetchRoute.decorateRecords', () => {
+describe('decorateRecords', () => {
     beforeEach(() => {});
 
     it('should expose the plugin API', () => {

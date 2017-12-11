@@ -20,7 +20,7 @@ Vue.config.productionTip = false;
 
 Vue.$fetchRoute.connect(global.store);
 
-describe('vue-router', function() {
+describe('vue-fetch-route', () => {
     require('./decorate-records.spec');
     require('./connect.spec');
 

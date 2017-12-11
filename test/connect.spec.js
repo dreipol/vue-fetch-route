@@ -1,5 +1,5 @@
 /* globals assert, Vue */
-describe('Vue.$fetchRoute.connect', () => {
+describe('connect', () => {
     let TestComponent;
     let PluginStore;
 
