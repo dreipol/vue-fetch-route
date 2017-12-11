@@ -4,5 +4,9 @@
     "browser": true,
     "node": true,
     "mocha": true
+  },
+  "rules": {
+    "global-require": "off",
+    "max-nested-callbacks": "off"
   }
 }

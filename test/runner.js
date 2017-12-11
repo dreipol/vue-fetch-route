@@ -11,6 +11,10 @@ Vue.use(VueFetchRoute.default, { log: noop });
 global.assert = require('assert');
 global.Vue = require('vue');
 global.store = new Vuex.Store({});
+global.routes = Object.freeze([
+    { path: '/test' },
+    { path: '/app', api: { fetch: { url: '/api/app' } } },
+]);
 
 window.URLSearchParams = require('url-search-params');
 window.fetch = () => Promise.resolve({ json: () => ({ data: {} }) });
