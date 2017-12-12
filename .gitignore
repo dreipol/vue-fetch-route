@@ -38,3 +38,6 @@ jspm_packages
 
 # generated files
 /dist/index.js
+
+# editor files
+.idea
