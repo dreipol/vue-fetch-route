@@ -1,4 +1,3 @@
-import { config } from '../index';
 import * as types from './mutation-types';
 
 

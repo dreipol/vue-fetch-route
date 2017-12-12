@@ -2,54 +2,67 @@ import isEqual from 'lodash.isequal';
 
 import { createConfig } from './create-config';
 import module from './module';
-import { removeQueryParams, decorateRecord, namespaced } from './helpers';
+import { decorateRecord, namespaced, removeQueryParams } from './helpers';
 
-// TODO: Avoid to export undefined globals, redefined somewhere else
-export let GlobalVue;
-export let VuexStore;
-export let config;
+const PLUGIN = Object.freeze({
+    Vue: null,
+    config: null,
+    VuexStore: null,
+    connect,
+    decorateRecords,
+    decorateRecord,
+    compareRecords,
+    invokeFetch,
+});
 
-const plugin = {};
+/**
+ * Plugin installation script
+ */
+export default (function install() {
+    let isInstalled = false;
 
-plugin.install = function(Vue, presets) {
-    if (plugin.installed) { return; }
-    plugin.installed = true;
+    return (Vue, presets) => {
+        return (function() {
+            if (isInstalled) { return; }
+            isInstalled = true;
 
-    config = createConfig(presets);
-
-    GlobalVue = Vue;
-    Vue.$fetchRoute = { connect, decorateRecords, compareRecords, invokeFetch };
-};
-
-export default plugin;
-
+            Vue.$fetchRoute = {
+                ...Object.create(PLUGIN),
+                Vue,
+                config: createConfig(presets),
+            };
+        });
+    };
+}());
 
 /**
  * Wire up a vuex store with the app
  * @access public
+ * @this PLUGIN
  * @param {Object} store - A vuex store containing the `router` module
  * @return {Function} Unsync function
  */
 function connect(store) {
-    // console.log(store.state['vue-fetch-route']);
+    const { config } = this;
+    const VuexStore = this.VuexStore = store;
 
-    VuexStore = store;
     VuexStore.registerModule(config.vuexModule, module);
 
     return () => {
-        VuexStore.unregisterModule(namespaced());
+        VuexStore.unregisterModule(namespaced(this.config));
     };
 }
 
 /**
  * Route config creation helper
  * @access public
+ * @this PLUGIN
  * @param {Array} records - A route record array describing a list of available routes
  * @param {Array} parents - The records' parental hierarchy, the first item being the oldest
  * @return {Array} The enhanced route records, ready for being used by `vue-router`
  */
-export function decorateRecords(records = [], parents = []) {
-    return records.map(record => decorateRecord(record, parents));
+function decorateRecords(records = [], parents = []) {
+    return records.map(record => this.decorateRecord(record, parents));
 }
 
 /**

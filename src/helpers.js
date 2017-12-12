@@ -1,20 +1,19 @@
 import cloneDeep from 'lodash.clonedeep';
-import { config, VuexStore, decorateRecords } from './index';
-
 
 /**
  * Access namespaced module in vuex store
  * @access private
+ * @prop {string} id - name of the vuex store
  * @return {string} The namespaced module name
  */
-export function namespaced() {
-    const { vuexModule } = config;
+export function namespaced({ vuexModule }) {
     return Array.isArray(vuexModule) ? vuexModule.join('/') : vuexModule;
 }
 
 /**
  * Create a route descriptor ready for consumation by `vue-router`
  * @access private
+ * @this PLUGIN_STRUCT
  * @param {Object} record - The base config object received from the server
  * @param {Array} parents - The records' parental hierarchy, the first item being the oldest
  * @return {Object} A newly created route record
@@ -23,6 +22,7 @@ export function decorateRecord({ api = {}, ...record }, parents) {
     let result = cloneDeep(record);
     let { path, children, alias, redirect } = result;
     let { fetch, fetched } = api;
+    const { config, VuexStore, decorateRecords } = this;
 
     // Add the current route to its own hierarchy
     let hierarchy = parents.slice();
@@ -43,7 +43,7 @@ export function decorateRecord({ api = {}, ...record }, parents) {
             ...(result.meta || {}),
             hierarchy, // String tuple of this route's parents including itself as the last index
             api: {
-                fetch: setEndpoint(fetch),
+                fetch: setEndpoint(fetch, config, VuexStore),
                 ...fetch,
             },
         };
@@ -94,24 +94,25 @@ export function compileFetchUrl(fetchUrl, params, query) {
  * @param {Object} fetch.query - A query object that is being merged with the specific query object, later on
  * @return {Function} - Return a handler function for accessing fetch data via a returned promise
  */
-function setEndpoint({ useCache = true, url, params: presetParams, query: presetQuery }) {
+function setEndpoint({ useCache = true, url, params: presetParams, query: presetQuery }, config, VuexStore) {
     return function fetch({ params: routeParams, query: routeQuery, response } = {}) {
         // Merge params and query with route presets
         const params = Object.assign({}, presetParams, routeParams);
         const query = Object.assign({}, presetQuery, routeQuery);
+        const namespace =  namespaced(config);
 
         // Create compiled endpoint url
-        const { fetchKey, storageKey } = createUrlKeys(compileFetchUrl, url, params, query);
+        const { fetchKey, storageKey } = createUrlKeys({ compileFetchUrl, url, params, query }, config, VuexStore);
 
         // Push available data into the store's endpoint address
         if (response) {
             config.log(`Saving prefetched data for URL '${ storageKey }'`);
-            return VuexStore.dispatch(`${ namespaced() }/setRouteData`, { key: storageKey, value: response });
+            return VuexStore.dispatch(`${ namespace }/setRouteData`, { key: storageKey, value: response });
         }
 
         // Fetch data from compiled endpoint
         config.log(`Fetching data for URL '${ fetchKey }'... Caching is ${ useCache ? 'enabled' : 'disabled' }.`);
-        return VuexStore.dispatch(`${ namespaced() }/getRouteData`, { storageKey, fetchKey, useCache });
+        return VuexStore.dispatch(`${ namespace }/getRouteData`, { storageKey, fetchKey, useCache });
     };
 }
 
@@ -124,10 +125,10 @@ function setEndpoint({ useCache = true, url, params: presetParams, query: preset
  * @param {Object} query - The query object
  * @return {Object} An object containing the fetch and the storage url
  */
-export function createUrlKeys(compileFn, fetchUrl, params, query) {
+export function createUrlKeys({ compileFn, fetchUrl, params, query }, config, VuexStore) {
     return {
-        fetchKey: compileFn(fetchUrl, params, filterQueryParams(query)),
-        storageKey: compileFn(fetchUrl, params, removeQueryParams(query)),
+        fetchKey: compileFn(fetchUrl, params, filterQueryParams(query, config, VuexStore)),
+        storageKey: compileFn(fetchUrl, params, removeQueryParams(query, config)),
     };
 }
 
@@ -138,9 +139,9 @@ export function createUrlKeys(compileFn, fetchUrl, params, query) {
  * @param {Vuex.Store} store - The vuex store object
  * @return {Object} The filtered query object
  */
-function filterQueryParams(query = {}) {
+function filterQueryParams(query = {}, config, VuexStore) {
     const result = Object.assign({ partials: [] }, cloneDeep(query));
-    const partials = VuexStore.state[namespaced()].partials;
+    const partials = VuexStore.state[namespaced(config)].partials;
 
     result.partials = result.partials.filter(name => !partials[name]);
 
@@ -157,7 +158,7 @@ function filterQueryParams(query = {}) {
  * @param {Object} query - The query object
  * @return {Object} The stripped query object
  */
-export function removeQueryParams(query = {}) {
+export function removeQueryParams(query = {}, config) {
     const result = cloneDeep(query);
 
     config.ignoredQueryParams.forEach(val => {
