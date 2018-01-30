@@ -94,7 +94,7 @@ const route = {
                 'partials': ['menu', 'footer'],
             }, 
             // Allow or disallow caching the route data in the vuex store 
-            'cache': true 
+            'useCache': true 
         },
         // It's possible to prefill one or all of the pages with initial data to avoid fetching altogether!
         'fetched': {
