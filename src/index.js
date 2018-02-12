@@ -45,7 +45,7 @@ function connect(store) {
  * Route config creation helper
  * @access public
  * @param {Array} records - A route record array describing a list of available routes
- * @param {Array} middlewares - A list of middlewares to apply before decorating the records
+ * @param {Array} middlewares - A list of middlewares to apply to each route (also recursively)
  * @param {Array} parents - The records' parental hierarchy, the first item being the oldest
  * @return {Array} The enhanced route records, ready for being used by `vue-router`
  */
