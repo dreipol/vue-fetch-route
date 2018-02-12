@@ -17,9 +17,10 @@ export function namespaced() {
  * @access private
  * @param {Object} record - The base config object received from the server
  * @param {Array} parents - The records' parental hierarchy, the first item being the oldest
+ * @param {Array} middlewares - A list of middlewares to apply before decorating the records
  * @return {Object} A newly created route record
  */
-export function decorateRecord({ api = {}, ...record }, parents) {
+export function decorateRecord({ api = {}, ...record }, parents, middlewares = []) {
     let result = cloneDeep(record);
     let { path, children, alias, redirect } = result;
     let { fetch, fetched } = api;
@@ -30,7 +31,7 @@ export function decorateRecord({ api = {}, ...record }, parents) {
 
     // Recursively transform child records
     if (children) {
-        result.children = decorateRecords(children, hierarchy);
+        result.children = decorateRecords(children, hierarchy, middlewares);
     }
 
     if (!fetch) {

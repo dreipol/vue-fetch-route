@@ -45,11 +45,13 @@ function connect(store) {
  * Route config creation helper
  * @access public
  * @param {Array} records - A route record array describing a list of available routes
+ * @param {Array} middlewares - A list of middlewares to apply before decorating the records
  * @param {Array} parents - The records' parental hierarchy, the first item being the oldest
  * @return {Array} The enhanced route records, ready for being used by `vue-router`
  */
-export function decorateRecords(records = [], parents = []) {
-    return records.map(record => decorateRecord(record, parents));
+export function decorateRecords(records = [], middlewares = [], parents = []) {
+    middlewares.push(record => decorateRecord(record, parents, middlewares));
+    return middlewares.reduce((acc, middleware) => acc.map(record => middleware(record, parents, middlewares)), records);
 }
 
 /**
