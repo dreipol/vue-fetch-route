@@ -1,6 +1,6 @@
 {
   "name": "vue-fetch-route",
-  "version": "0.0.9",
+  "version": "0.1.0",
   "description": "",
   "main": "dist/index.js",
   "jsnext:main": "src/index.js",
