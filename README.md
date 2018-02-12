@@ -253,6 +253,7 @@ Route config creation helper
 **Parameters**
 
 -   `records` **[Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)** A route record array describing a list of available routes (optional, default `[]`)
+-   `middlewares` **[Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)** A list of middlewares to apply before decorating the records (optional, default `[]`)
 -   `parents` **[Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)** The records' parental hierarchy, the first item being the oldest (optional, default `[]`)
 
 Returns **[Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)** The enhanced route records, ready for being used by `vue-router`
