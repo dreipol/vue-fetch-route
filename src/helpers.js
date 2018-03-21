@@ -136,7 +136,6 @@ export function createUrlKeys(compileFn, fetchUrl, params, query) {
  * Filter query params for djangoCMS static placeholders
  * @access private
  * @param {Object} query - The input query object
- * @param {Vuex.Store} store - The vuex store object
  * @return {Object} The filtered query object
  */
 function filterQueryParams(query = {}) {
