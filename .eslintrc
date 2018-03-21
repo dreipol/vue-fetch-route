@@ -2,14 +2,6 @@
   "root": true,
   "parser": "babel-eslint",
   "extends": "@dreipol/eslint-config",
-  "plugins": [
-    "@dreipol/export-keys",
-    "html"
-  ],
-  "settings": {
-    "html/indent": "+4",
-    "html/report-bad-indent": "error"
-  },
   "env": {
     "browser": true,
     "node": true
@@ -19,28 +11,6 @@
     "globals": true
   },
   "rules": {
-    "no-unused-vars": [
-      "error",
-      "all"
-    ],
     "camelcase": ["error", { "properties": "never" }],
-    "@dreipol/export-keys/order": [
-      1,
-      [
-        "mixins",
-        "el",
-        "template",
-        "render",
-        "model",
-        "props",
-        "provide",
-        "inject",
-        "data",
-        "computed",
-        "methods",
-        "events",
-        "watch"
-      ]
-    ]
   }
 }

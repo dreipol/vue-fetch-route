@@ -33,11 +33,9 @@
   "homepage": "https://github.com/dreipol/vue-fetch-route#readme",
   "devDependencies": {
     "@dreipol/eslint-config": "^3.0.0",
-    "@dreipol/eslint-plugin-export-keys": "^1.1.1",
     "babel-eslint": "^8.0.1",
     "documentation": "^5.3.3",
     "eslint": "^4.4.0",
-    "eslint-plugin-html": "^3.1.1",
     "jsdom": "9.5.0",
     "jsdom-global": "2.1.0",
     "mocha": "^4.0.1",
