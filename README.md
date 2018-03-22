@@ -2,7 +2,9 @@
 
 This npm package provides various helper methods to ease the pain of fetching, storing and reaccessing route based data
 with `vue`, `vuex` and `vue-router`.
-It is intended to work in tandem with django-cms and its two plugins [`djangocms-spa`](https://github.com/dreipol/djangocms-spa) and [`djangocms-spa-vue-js`](https://github.com/dreipol/djangocms-spa-vue-js).<br>
+
+## Purpose
+The package is intended to work in tandem with django-cms and its two plugins [`djangocms-spa`](https://github.com/dreipol/djangocms-spa) and [`djangocms-spa-vue-js`](https://github.com/dreipol/djangocms-spa-vue-js).<br>
 However, these helpers might also come in handy for other environments and are not at all coupled to python or django.
 
 [![Build Status][travis-image]][travis-url]
@@ -18,14 +20,14 @@ However, these helpers might also come in handy for other environments and are n
     npm install -S vue-fetch-route 
     ```
 
-2.  Register the plugin to your Vue instance
+1.  Register the plugin to your Vue instance
 
     ```js
     import VueFetchRoute from 'vue-fetch-route';
     Vue.use(VueFetchRoute);
     ```
 
-3.  Initialize `vuex` and use `connect` to register the plugin to your store. <br> 
+1.  Initialize `vuex` and use `connect` to register the plugin to your store. <br> 
     Please see also [Route records - Additional fields](#route-records---additional-fields)
 
     ```js
@@ -33,7 +35,7 @@ However, these helpers might also come in handy for other environments and are n
     const unsync = Vue.$fetchRoute.connect(store);
     ```
 
-4.  Initialize `vue-router` and use `decorateRecords` to prepare your route records
+1.  Initialize `vue-router` and use `decorateRecords` to prepare your route records
 
     ```js
         const myRoutes = [/* your route records */];
@@ -43,7 +45,7 @@ However, these helpers might also come in handy for other environments and are n
         });
     ```
 
-5.  Init your app, use `invokeFetch` in your page components to initialize a data fetch
+1.  Init your app, use `invokeFetch` in your page components to initialize a data fetch
 
     ```js
     const App = new Vue({
