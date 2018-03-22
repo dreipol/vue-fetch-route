@@ -3,14 +3,14 @@
 This npm package provides various helper methods to ease the pain of fetching, storing and reaccessing route based data
 with `vue`, `vuex` and `vue-router`.
 
-## Purpose
-The package is intended to work in tandem with django-cms and its two plugins [`djangocms-spa`](https://github.com/dreipol/djangocms-spa) and [`djangocms-spa-vue-js`](https://github.com/dreipol/djangocms-spa-vue-js). 
-However, these helpers might also come in handy for other environments and are not at all coupled to python or django.
-
 [![Build Status][travis-image]][travis-url]
 [![NPM version][npm-version-image]][npm-url]
 [![NPM downloads][npm-downloads-image]][npm-url]
 [![MIT License][license-image]][license-url]
+
+## Purpose
+The package is intended to work in tandem with django-cms and its two plugins [`djangocms-spa`](https://github.com/dreipol/djangocms-spa) and [`djangocms-spa-vue-js`](https://github.com/dreipol/djangocms-spa-vue-js). 
+However, these helpers might also come in handy for other environments and are not at all coupled to python or django.
 
 ## Quickstart
 
