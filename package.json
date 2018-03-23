@@ -22,8 +22,11 @@
     "url": "git+https://github.com/dreipol/vue-fetch-route.git"
   },
   "keywords": [
-    "es6",
-    "es2015"
+    "vue",
+    "vue-router",
+    "vuex",
+    "spa",
+    "django-cms",
   ],
   "author": "Rouven Bühlmann <rouven.buehlmann@dreipol.ch> (http://dreipol.ch)",
   "license": "MIT",
