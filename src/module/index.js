@@ -19,11 +19,11 @@ const mutations = Object.freeze({
     },
 });
 
-const state = Object.seal({
+const state = {
     isLoading: false,
     routes: {},
     partials: {},
-});
+};
 
 
 export default {
