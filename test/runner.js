@@ -6,7 +6,7 @@ const VueFetchRoute = require('../dist');
 const noop = () => {};
 
 Vue.use(Vuex);
-Vue.use(VueFetchRoute.default, { log: noop });
+Vue.use(VueFetchRoute.default, { log: noop, warn: noop });
 
 global.assert = require('assert');
 global.Vue = require('vue');

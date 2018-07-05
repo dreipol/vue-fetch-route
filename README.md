@@ -197,6 +197,12 @@ Log method to gain some insights about route navigation and data storing
 
 Default: `window.console.log`
 
+### warn
+
+Warn method to notify about possible errors
+
+Default: `window.console.warn`
+
 ### fetch
 
 Method used to invoke when fetching data

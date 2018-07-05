@@ -6,6 +6,12 @@ export const presets = Object.freeze({
      */
     log: window.console.log,
     /**
+     * Warn method to notify about possible errors
+     * @default
+     * @type {Function}
+     */
+    warn: window.console.warn,
+    /**
      * Method used to invoke when fetching data
      * @default
      * @type {Function}

@@ -107,6 +107,11 @@ function setEndpoint({ useCache = true, url, params: presetParams, query: preset
         // Push available data into the store's endpoint address
         if (response) {
             config.log(`Saving prefetched data for URL '${ storageKey }'`);
+
+            storageKey.split('/')
+                .filter(str => str && str[0] === ':')
+                .forEach(str => config.warn(`Possibly unreplaced url param "${ str }" found in the storage url!`));
+
             return VuexStore.dispatch(`${ namespaced() }/setRouteData`, { key: storageKey, value: response });
         }
 
