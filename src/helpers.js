@@ -98,6 +98,7 @@ export function compileFetchUrl(fetchUrl, params, query) {
 function setEndpoint({ useCache = true, url, params: presetParams, query: presetQuery }) {
     return function fetch({ params: routeParams, query: routeQuery, response } = {}) {
         // Merge params and query with route presets
+        const namespace = namespaced();
         const params = Object.assign({}, presetParams, routeParams);
         const query = Object.assign({}, presetQuery, routeQuery);
 
@@ -112,12 +113,12 @@ function setEndpoint({ useCache = true, url, params: presetParams, query: preset
                 .filter(str => str && str[0] === ':')
                 .forEach(str => config.warn(`Possibly unreplaced url param "${ str }" found in the storage url!`));
 
-            return VuexStore.dispatch(`${ namespaced() }/setRouteData`, { key: storageKey, value: response });
+            return VuexStore.dispatch(`${ namespace }/setRouteData`, { key: storageKey, value: response });
         }
 
         // Fetch data from compiled endpoint
         config.log(`Fetching data for URL '${ fetchKey }'... Caching is ${ useCache ? 'enabled' : 'disabled' }.`);
-        return VuexStore.dispatch(`${ namespaced() }/getRouteData`, { storageKey, fetchKey, useCache });
+        return VuexStore.dispatch(`${ namespace }/getRouteData`, { storageKey, fetchKey, useCache });
     };
 }
 
