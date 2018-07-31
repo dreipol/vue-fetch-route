@@ -1,7 +1,6 @@
 import { config } from '../index';
 import * as types from './mutation-types';
 
-
 /**
  * Commit available route data into the vuex store
  * @access private
@@ -43,11 +42,15 @@ export function setRouteData({ commit }, { key, value }) {
  */
 export function getRouteData({ commit, state, dispatch }, { storageKey, fetchKey, useCache }) {
     let FetchPromise = state.routes[storageKey];
-    const hasCache = (useCache && FetchPromise);
+    const loadFromCache = ((useCache || state.isInitialRoute) && FetchPromise);
 
-    config.log(`Using ${ hasCache ? 'cached' : 'api' } data`);
+    config.log(`Using ${ loadFromCache ? 'cached' : 'api' } data`);
 
-    if (hasCache) {
+    if (state.isInitialRoute) {
+        commit(types.SET_IS_INITIAL_ROUTE, { isInitialRoute: false });
+    }
+
+    if (loadFromCache) {
         return FetchPromise;
     }
 
