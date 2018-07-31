@@ -4,6 +4,9 @@ import * as types from './mutation-types';
 import * as actions from './actions';
 
 const mutations = Object.freeze({
+    [types.SET_IS_INITIAL_ROUTE](state, { isInitialRoute }) {
+        state.isInitialRoute = isInitialRoute;
+    },
     [types.SET_ROUTE_DATA](state, { key, value }) {
         GlobalVue.set(state.routes, key, value);
     },
@@ -20,6 +23,7 @@ const mutations = Object.freeze({
 });
 
 const state = {
+    isInitialRoute: true,
     isLoading: false,
     routes: {},
     partials: {},

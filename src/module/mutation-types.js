@@ -1,3 +1,4 @@
+export const SET_IS_INITIAL_ROUTE = 'vue-fetch-route/SET_IS_INITIAL_ROUTE';
 export const SET_ROUTE_DATA = 'vue-fetch-route/SET_ROUTE_DATA';
 export const SET_PARTIALS_DATA = 'vue-fetch-route/SET_PARTIALS_DATA';
 export const SET_LOADING_STATE = 'vue-fetch-route/SET_LOADING_STATE';
