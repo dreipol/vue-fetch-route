@@ -2,19 +2,19 @@ export const presets = Object.freeze({
     /**
      * Log method to gain some insights about route navigation and data storing
      * @default
-     * @type {Function}
+     * @type {function}
      */
     log: window.console.log,
     /**
      * Warn method to notify about possible errors
      * @default
-     * @type {Function}
+     * @type {function}
      */
     warn: window.console.warn,
     /**
      * Method used to invoke when fetching data
      * @default
-     * @type {Function}
+     * @type {function}
      * @param {string} url - A fetch url
      * @return {Promise} A promise resolving with the route data
      */

@@ -4,8 +4,8 @@ import * as types from './mutation-types';
 /**
  * Commit available route data into the vuex store
  * @access private
- * @param {Object} context - A vuex action context object
- * @param {Object} payload - A vuex action payload object
+ * @param {object} context - A vuex action context object
+ * @param {object} payload - A vuex action payload object
  * @param {string} payload.key - The storage address
  * @param {string} payload.value - The storage data to save
  * @return {Promise} A promise that resolves with the route's data
@@ -33,8 +33,8 @@ export function setRouteData({ commit }, { key, value }) {
 /**
  * Retrieve route data from the store, conditionally requesting it from the api endpoint if not available
  * @access private
- * @param {Object} context - A vuex action context object
- * @param {Object} payload - A vuex action payload object
+ * @param {object} context - A vuex action context object
+ * @param {object} payload - A vuex action payload object
  * @param {string} payload.storageKey - The storage address
  * @param {string} payload.fetchKey - The fetch url
  * @param {string} payload.useCache - A flag to indicate whether to allow fetching from the vuex store
@@ -73,7 +73,7 @@ export function getRouteData({ commit, state, dispatch }, { storageKey, fetchKey
 /**
  * Remove all routes from the cache
  * @access private
- * @param {Object} context - A vuex action context object
+ * @param {object} context - A vuex action context object
  */
 export function flushCache({ commit }) {
     commit(types.FLUSH_CACHE);

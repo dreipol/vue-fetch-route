@@ -6,7 +6,7 @@
   "jsnext:main": "src/index.js",
   "scripts": {
     "prepare": "npm run build && npm test",
-    "lint": "eslint src/index.js test/test.js rollup.config.js",
+    "lint": "eslint src/* test/test.js rollup.config.js",
     "build": "rollup -c",
     "doc": "npm run doc-api",
     "doc-config": "documentation readme src/presets.js --section='Plugin config'",
@@ -35,7 +35,7 @@
   },
   "homepage": "https://github.com/dreipol/vue-fetch-route#readme",
   "devDependencies": {
-    "@dreipol/eslint-config": "^3.0.0",
+    "@dreipol/eslint-config": "^5.0.0",
     "babel-eslint": "^8.0.1",
     "documentation": "^5.3.3",
     "eslint": "^4.4.0",

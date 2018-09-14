@@ -27,8 +27,8 @@ export default plugin;
 /**
  * Wire up a vuex store with the app
  * @access public
- * @param {Object} store - A vuex store containing the `router` module
- * @return {Function} Unsync function
+ * @param {object} store - A vuex store containing the `router` module
+ * @return {function} Unsync function
  */
 function connect(store) {
     // console.log(store.state['vue-fetch-route']);
@@ -57,8 +57,8 @@ export function decorateRecords(records = [], middlewares = [], parents = []) {
 /**
  * Compare two route definitions, ignoring irrelevant information such as hash
  * @access public
- * @param {Object} to - A route record describing the previous location
- * @param {Object} from - A route record describing the next location
+ * @param {object} to - A route record describing the previous location
+ * @param {object} from - A route record describing the next location
  * @return {boolean} A flag indicating if two records are identical
  */
 function compareRecords(to, from) {
@@ -72,10 +72,10 @@ function compareRecords(to, from) {
 /**
  * Start a fetch request
  * @access public
- * @param {Object} route - A route descriptor object
- * @param {Object} route.params - All currently active params
- * @param {Object} route.query - The currently active query object
- * @param {Object} route.meta - The route's meta property
+ * @param {object} route - A route descriptor object
+ * @param {object} route.params - All currently active params
+ * @param {object} route.query - The currently active query object
+ * @param {object} route.meta - The route's meta property
  * @return {Promise} A promise returning route data of a page
  */
 function invokeFetch({ meta, params, query }) {

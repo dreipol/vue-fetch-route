@@ -15,10 +15,10 @@ export function namespaced() {
 /**
  * Create a route descriptor ready for consumation by `vue-router`
  * @access private
- * @param {Object} record - The base config object received from the server
+ * @param {object} record - The base config object received from the server
  * @param {Array} parents - The records' parental hierarchy, the first item being the oldest
  * @param {Array} middlewares - A list of middlewares
- * @return {Object} A newly created route record
+ * @return {object} A newly created route record
  */
 export function decorateRecord({ api = {}, ...record }, parents, middlewares = []) {
     let result = cloneDeep(record);
@@ -65,8 +65,8 @@ export function decorateRecord({ api = {}, ...record }, parents, middlewares = [
  * Compile full fetch api endpoint by using params and query objects
  * @access private
  * @param {string} fetchUrl - A base string, used as a template
- * @param {Object} params - A params object that fills the params gap in the `fetchUrl` template string
- * @param {Object} query - A query object that is being appended to the `fetchUrl` template string
+ * @param {object} params - A params object that fills the params gap in the `fetchUrl` template string
+ * @param {object} query - A query object that is being appended to the `fetchUrl` template string
  * @return {string} - The fully compiled fetch url
  */
 export function compileFetchUrl(fetchUrl, params, query) {
@@ -88,12 +88,12 @@ export function compileFetchUrl(fetchUrl, params, query) {
 /**
  * Register an api url and create a function through which api data can be accessed (via cache or api call)
  * @access private
- * @param {Object} fetch - A fetch endpoint definition
+ * @param {object} fetch - A fetch endpoint definition
  * @param {string} fetch.useCache - A flag to indicate whether to allow vuex store caching
  * @param {string} fetch.url - The basic url prior to any manipulation
- * @param {Object} fetch.params - A list of base params that are being merged with specific params, later on
- * @param {Object} fetch.query - A query object that is being merged with the specific query object, later on
- * @return {Function} - Return a handler function for accessing fetch data via a returned promise
+ * @param {object} fetch.params - A list of base params that are being merged with specific params, later on
+ * @param {object} fetch.query - A query object that is being merged with the specific query object, later on
+ * @return {function} - Return a handler function for accessing fetch data via a returned promise
  */
 function setEndpoint({ useCache = true, url, params: presetParams, query: presetQuery }) {
     return function fetch({ params: routeParams, query: routeQuery, response } = {}) {
@@ -125,11 +125,11 @@ function setEndpoint({ useCache = true, url, params: presetParams, query: preset
 /**
  * Create endpoint urls for fetching and storing
  * @access private
- * @param {Function} compileFn - The method to compile a fetch/storage url out of a raw url
+ * @param {function} compileFn - The method to compile a fetch/storage url out of a raw url
  * @param {string} fetchUrl - The raw url
- * @param {Object} params - The params object
- * @param {Object} query - The query object
- * @return {Object} An object containing the fetch and the storage url
+ * @param {object} params - The params object
+ * @param {object} query - The query object
+ * @return {object} An object containing the fetch and the storage url
  */
 export function createUrlKeys(compileFn, fetchUrl, params, query) {
     return {
@@ -141,8 +141,8 @@ export function createUrlKeys(compileFn, fetchUrl, params, query) {
 /**
  * Filter query params for djangoCMS static placeholders
  * @access private
- * @param {Object} query - The input query object
- * @return {Object} The filtered query object
+ * @param {object} query - The input query object
+ * @return {object} The filtered query object
  */
 function filterQueryParams(query = {}) {
     const result = Object.assign({ partials: [] }, cloneDeep(query));
@@ -160,8 +160,8 @@ function filterQueryParams(query = {}) {
 /**
  * Remove query params for djangoCMS static placeholders
  * @access private
- * @param {Object} query - The query object
- * @return {Object} The stripped query object
+ * @param {object} query - The query object
+ * @return {object} The stripped query object
  */
 export function removeQueryParams(query = {}) {
     const result = cloneDeep(query);
