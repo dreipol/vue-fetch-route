@@ -37,7 +37,7 @@ function connect(store) {
     VuexStore.registerModule(config.vuexModule, module);
 
     return () => {
-        VuexStore.unregisterModule(namespaced());
+        VuexStore.unregisterModule(config.vuexModule);
     };
 }
 
