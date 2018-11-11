@@ -2,7 +2,7 @@ import isEqual from 'lodash.isequal';
 
 import { createConfig } from './create-config';
 import module from './module';
-import { removeQueryParams, decorateRecord, namespaced } from './helpers';
+import { removeQueryParams, decorateRecord } from './helpers';
 
 // TODO: Avoid to export undefined globals, redefined somewhere else
 export let GlobalVue;
